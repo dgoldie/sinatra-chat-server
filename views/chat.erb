@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Chat demo</title>
+		<style type="text/css">
+#controls {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: #fff;
+	padding: 0.5em;
+	display: block;
+}
+
+#message {width: 80%;}
+
+#log {
+  font-family: helvetica, arial, sans-serif;
+  font-size: .8em;
+  padding-bottom: 40px;
+}
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+		<div id="log"></div>
+	  <div id="controls">
+	    <hr />
+	    <input type="text" id="message"/>
+	    <input type="button" value="send" id="sendbtn" disabled="disabled">
+	    <input type="button" value="connect" id="connect">
+	    <input type="button" value="disconnect" id="disconnect">
+		</div>
+    <script type="text/javascript">
+var conn;
+$(function(){
+  var history = [], idx = 0;
+  $("#message").focus();
+
+  $(window).bind("focus", function(){
+    $("#message").focus();
+  });
+
+  var logpanel = $("#log");
+
+  function sendmsg(){
+    if(conn && conn.readyState == 1){
+      var msg = $("#message").val();
+      history.unshift(msg);
+      conn.send(msg);
+      idx = 0;
+      $("#message").val("");
+    }
+  };
+
+  $("#sendbtn").bind("click", function(){
+    sendmsg();
+  });
+
+  $("#message").bind("keydown", function(e){
+    if(e.which == 13){
+      sendmsg();
+    }
+  });
+
+  $("#connect").bind("click", function(){
+    connect()
+  });
+
+  $("#disconnect").bind("click", function(){
+    conn.close()
+  });
+
+  function scrollToBottom() {
+      window.scrollBy(0, document.body.scrollHeight - document.body.scrollTop);
+  };
+
+  function log(data){
+    logpanel.append("<p>"+data+"</p>");
+    scrollToBottom();
+  };
+
+  function connect(){
+    if (window["WebSocket"]) {
+      conn = new WebSocket("ws://localhost:8080/");
+
+      conn.onmessage = function(evt) {
+        log(evt.data);
+      };
+
+      conn.onclose = function() {
+        log("** you have been disconnected");
+      };
+
+      conn.onopen = function(){
+        log("** you have been connected");
+        $("#sendbtn").removeAttr("disabled");
+      }
+    }
+  };
+
+  connect();
+});
+    </script>
+  </body>
+</html>
