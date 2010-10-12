@@ -30,7 +30,7 @@
 	    <input type="text" id="message"/>
 	    <input type="button" value="send" id="sendbtn" disabled="disabled">
 	    <input type="button" value="connect" id="connect">
-	    <input type="button" value="disconnect" id="disconnect">
+	    <input type="button" value="disconnect" id="disconnect" disabled="disabled">
 		</div>
     <script type="text/javascript">
 var conn;
@@ -91,11 +91,14 @@ $(function(){
 
       conn.onclose = function() {
         log("** you have been disconnected");
+        $("#sendbtn, #disconnect").attr("disabled","disabled");
+        $("#connect").removeAttr("disabled");
       };
 
       conn.onopen = function(){
         log("** you have been connected");
-        $("#sendbtn").removeAttr("disabled");
+        $("#sendbtn, #disconnect").removeAttr("disabled");
+        $("#connect").attr("disabled","disabled");
       }
     }
   };
