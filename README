@@ -1,4 +1,4 @@
-EventMachine and Sinatra based chat server. Client provided by michiel's node-websocket-server example, with much thanks!
+EventMachine and Sinatra based chat server. Client provided by michiel's node-websocket-server example with some refactoring by me, with much thanks!
 
 USAGE:
 
