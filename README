@@ -1,0 +1,7 @@
+EventMachine and Sinatra based chat server. Client provided by michiel's node-websocket-server example, with much thanks!
+
+USAGE:
+
+Clone, then ruby sinatraserver.rb, making sure you have the required dependencies installed.
+
+Interesting note: You cannot run a Sinatra server and an EM server from the same file when hosting through Heroku. Turns out a rack application is given a single port through Thin, so hosting it on two different ports proves impossible.
