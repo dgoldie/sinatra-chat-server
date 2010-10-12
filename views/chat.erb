@@ -56,6 +56,7 @@ $(function(){
 
   $("#sendbtn").bind("click", function(){
     sendmsg();
+    $("#message").focus()
   });
 
   $("#message").bind("keydown", function(e){
@@ -99,6 +100,7 @@ $(function(){
         log("** you have been connected");
         $("#sendbtn, #disconnect").removeAttr("disabled");
         $("#connect").attr("disabled","disabled");
+        $("#message").focus()
       }
     }
   };
