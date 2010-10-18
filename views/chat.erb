@@ -54,6 +54,10 @@ $(function(){
     }
   };
 
+  $("#log").bind('click', function(){
+    $("#message").focus()
+  });
+
   $("#sendbtn").bind("click", function(){
     sendmsg();
     $("#message").focus()
@@ -84,7 +88,7 @@ $(function(){
 
   function connect(){
     if (window["WebSocket"]) {
-      conn = new WebSocket("ws://localhost:8080/");
+      conn = new WebSocket("ws://" + document.location.hostname + ":8080" );
 
       conn.onmessage = function(evt) {
         log(evt.data);
